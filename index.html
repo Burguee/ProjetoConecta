@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Sistema CONECTA</title>
+		<link rel="stylesheet" href="css/styles.css" />
+	</head>
+	<body>
+		<!-- Login Screen -->
+		<div id="loginScreen" class="screen active">
+			<div class="login-container">
+				<h1 class="login-title">CONECTA</h1>
+				<form id="loginForm">
+					<div class="form-group">
+						<label class="form-label">Email</label>
+						<input
+							type="email"
+							class="form-input"
+							id="email"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label class="form-label">Senha</label>
+						<input
+							type="password"
+							class="form-input"
+							id="password"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label class="form-label">Tipo de Usuário</label>
+						<select class="form-select" id="userType" required>
+							<option value="">Selecione...</option>
+							<option value="PF">
+								Pessoa Física (Candidato)
+							</option>
+							<option value="PJ">
+								Pessoa Jurídica (Empresa)
+							</option>
+						</select>
+					</div>
+					<button type="submit" class="btn-primary">Entrar</button>
+				</form>
+			</div>
+		</div>
+
+		<!-- Main Dashboard -->
+		<div id="dashboardScreen" class="screen">
+			<div class="container">
+				<header class="header">
+					<div class="logo">CONECTA</div>
+					<div class="user-info">
+						<span class="user-badge" id="userBadge"
+							>PF - Candidato</span
+						>
+						<div
+							class="notification-bell"
+							onclick="toggleNotifications()"
+						>
+							🔔
+							<span
+								class="notification-count"
+								id="notificationCount"
+								>3</span
+							>
+						</div>
+						<button class="logout-btn" onclick="logout()">
+							Sair
+						</button>
+					</div>
+				</header>
+
+				<div class="dashboard">
+					<aside class="sidebar">
+						<ul class="sidebar-menu">
+							<li class="sidebar-item">
+								<div
+									class="sidebar-link active"
+									onclick="showSection('jobs')"
+								>
+									📋 Vagas Disponíveis
+								</div>
+							</li>
+							<li
+								class="sidebar-item"
+								id="publishJobMenu"
+								style="display: none"
+							>
+								<div
+									class="sidebar-link"
+									onclick="showSection('publish')"
+								>
+									➕ Publicar Vaga
+								</div>
+							</li>
+							<li class="sidebar-item">
+								<div
+									class="sidebar-link"
+									onclick="showSection('applications')"
+								>
+									📝 Minhas Candidaturas
+								</div>
+							</li>
+						</ul>
+					</aside>
+
+					<main class="main-content">
+						<!-- Jobs Section -->
+						<div id="jobsSection" class="content-section">
+							<h2 class="section-title">Vagas Disponíveis</h2>
+
+							<div class="filters">
+								<div class="filter-group">
+									<label>Buscar</label>
+									<input
+										type="text"
+										class="filter-input"
+										id="searchInput"
+										placeholder="Título da vaga..."
+									/>
+								</div>
+								<div class="filter-group">
+									<label>Tipo</label>
+									<select
+										class="filter-input"
+										id="typeFilter"
+									>
+										<option value="">Todos</option>
+										<option value="estagio">Estágio</option>
+										<option value="clt">
+											Carteira Assinada
+										</option>
+										<option value="freelancer">
+											Freelancer
+										</option>
+									</select>
+								</div>
+								<div class="filter-group">
+									<label>Salário Min</label>
+									<input
+										type="number"
+										class="filter-input"
+										id="salaryFilter"
+										placeholder="R$ 0,00"
+									/>
+								</div>
+								<div class="filter-group">
+									<label>Localização</label>
+									<input
+										type="text"
+										class="filter-input"
+										id="locationFilter"
+										placeholder="Cidade..."
+									/>
+								</div>
+							</div>
+
+							<div class="jobs-grid" id="jobsGrid">
+								<!-- Jobs will be loaded here -->
+							</div>
+						</div>
+
+						<!-- Publish Job Section -->
+						<div id="publishSection" class="content-section hidden">
+							<h2 class="section-title">Publicar Nova Vaga</h2>
+
+							<form id="publishForm" class="publish-form">
+								<div class="form-group">
+									<label class="form-label"
+										>Título da Vaga</label
+									>
+									<input
+										type="text"
+										class="form-input"
+										required
+									/>
+								</div>
+								<div class="form-group">
+									<label class="form-label">Empresa</label>
+									<input
+										type="text"
+										class="form-input"
+										required
+									/>
+								</div>
+								<div class="form-group">
+									<label class="form-label"
+										>Tipo de Vaga</label
+									>
+									<select class="form-select" required>
+										<option value="">Selecione...</option>
+										<option value="estagio">Estágio</option>
+										<option value="clt">
+											Carteira Assinada
+										</option>
+										<option value="freelancer">
+											Freelancer
+										</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label class="form-label">Salário</label>
+									<input
+										type="text"
+										class="form-input"
+										placeholder="R$ 0,00"
+									/>
+								</div>
+								<div class="form-group">
+									<label class="form-label">Cidade</label>
+									<input
+										type="text"
+										class="form-input"
+										required
+									/>
+								</div>
+								<div class="form-group">
+									<label class="form-label">Estado</label>
+									<input
+										type="text"
+										class="form-input"
+										required
+									/>
+								</div>
+								<div class="form-group form-group-full">
+									<label class="form-label"
+										>Descrição da Vaga</label
+									>
+									<textarea
+										class="form-input textarea"
+										required
+									></textarea>
+								</div>
+								<div class="form-group form-group-full">
+									<label class="form-label">Requisitos</label>
+									<textarea
+										class="form-input textarea"
+										required
+									></textarea>
+								</div>
+								<div class="form-group form-group-full">
+									<button type="submit" class="btn-primary">
+										Publicar Vaga
+									</button>
+								</div>
+							</form>
+						</div>
+
+						<!-- Applications Section -->
+						<div
+							id="applicationsSection"
+							class="content-section hidden"
+						>
+							<h2 class="section-title">Minhas Candidaturas</h2>
+							<div id="applicationsGrid">
+								<!-- Applications will be loaded here -->
+							</div>
+						</div>
+					</main>
+				</div>
+			</div>
+		</div>
+
+		<!-- Notifications Panel -->
+		<div class="overlay" id="overlay" onclick="toggleNotifications()"></div>
+		<div class="notifications-panel" id="notificationsPanel">
+			<h3 style="margin-bottom: 1.5rem; color: #333">Notificações</h3>
+			<div id="notificationsList">
+				<!-- Notifications will be loaded here -->
+			</div>
+		</div>
+
+		<script src="js/scripts.js"></script>
+	</body>
+</html>
